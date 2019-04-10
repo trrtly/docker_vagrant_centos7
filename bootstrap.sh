@@ -3,7 +3,7 @@
 cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 timedatectl set-timezone Asia/Shanghai
 rm -f /etc/yum.repos.d/CentOS-Base.repo
-curl -Ls -H "Host:ftp.epweike.net" http://10.0.100.92/incoming/epwkdev/CentOS7-Base-163.repo.tar -o /etc/yum.repos.d/CentOS-Base.repo
+curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS-Base.repo
 # using socat to port forward in helm tiller
 # install  kmod and ceph-common for rook
 yum install -y git wget curl conntrack-tools net-tools telnet tcpdump bind-utils socat ntp yum-utils device-mapper-persistent-data lvm2
@@ -62,8 +62,11 @@ systemctl daemon-reload
 systemctl enable docker
 systemctl start docker
 
+echo "cd /data" >> /home/vagrant/.bashrc
+
 echo 'install docker-compose'
-sudo curl -Ls -H "Host:ftp.epweike.net" http://10.0.100.92/incoming/epwkdev/docker-compose.tar -o /usr/local/bin/docker-compose
+sudo curl -Ls -H "Host:ftp.epweike.net" http://10.0.100.92/incoming/epwkdev/docker-compose.tar.gz -o docker-compose.tar.gz
+sudo tar -xvf docker-compose.tar.gz -C /usr/local/bin/
 sudo chmod +x /usr/local/bin/docker-compose
 
 echo 'docker version:'
