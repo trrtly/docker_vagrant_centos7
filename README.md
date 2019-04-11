@@ -94,6 +94,20 @@ vagrant up
     * 选择让我从计算机上的可用驱动程序列表中选取，下一步
     * 应该看到列表中只有`VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行`vagrant up`。
 
+7. 文件同步说明
+- 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的/data目录
+- 可以在项目目录下创建webroot目录，将项目代码克隆至webroot目录下，对应虚拟机内的/data/webroot
+- 例如，安装dev.epwk.env：
+```
+mkdir webroot
+cd webroot
+git clone http://git.epweike.net:3000/epwk/dev.epwk.env.git
+vagrant ssh
+cd /data/webroot/dev.epwk.env
+cp .env-example .env
+docker-compose up -d
+```
+
 #### 使用说明
 
 1. 查看虚拟机运行状态
