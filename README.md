@@ -98,6 +98,7 @@ vagrant up
 - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的/data目录
 - 可以在项目目录下创建webroot目录，将项目代码克隆至webroot目录下，对应虚拟机内的/data/webroot
 - 例如，安装dev.epwk.env：
+
 ```
 mkdir webroot
 cd webroot
