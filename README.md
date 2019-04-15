@@ -87,27 +87,29 @@ vagrant up
     VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component ConsoleWrap, interface IConsole
     ```
     可以通过更新virtualbox网络驱动解决：
-    * 打开网络共享中心，并转到侧栏中的更改适配器设置
-    * 右击VirtualBox Host Only Network网络驱动器
-    * 点击配置按钮->驱动程序选项卡->更新驱动程序按钮。
-    * 选择浏览我的计算机以查找驱动程序软件选项
-    * 选择让我从计算机上的可用驱动程序列表中选取，下一步
-    * 应该看到列表中只有`VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行`vagrant up`。
+      * 打开网络共享中心，并转到侧栏中的更改适配器设置
+      * 右击VirtualBox Host Only Network网络驱动器
+      * 点击配置按钮->驱动程序选项卡->更新驱动程序按钮。
+      * 选择浏览我的计算机以查找驱动程序软件选项
+      * 选择让我从计算机上的可用驱动程序列表中选取，下一步
+      * 应该看到列表中只有`VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行`vagrant up`。
 
 7. 文件同步说明
-- 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的/data目录
-- 可以在项目目录下创建webroot目录，将项目代码克隆至webroot目录下，对应虚拟机内的/data/webroot
-- 例如，安装dev.epwk.env：
+   - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的/data目录
+   - 可以在项目目录下创建webroot目录，将项目代码克隆至webroot目录下，对应虚拟机内的/data/webroot
+   - 例如，安装dev.epwk.env：
 
-```
-mkdir webroot
-cd webroot
-git clone http://git.epweike.net:3000/epwk/dev.epwk.env.git
-vagrant ssh
-cd /data/webroot/dev.epwk.env
-cp .env-example .env
-docker-compose up -d
-```
+    ```
+    # 创建 webroot 目录
+    mkdir webroot
+    cd webroot
+    # 克隆 dev.epwk.env 仓库
+    git clone http://git.epweike.net:3000/epwk/dev.epwk.env.git
+    vagrant ssh
+    cd /data/webroot/dev.epwk.env
+    cp .env-example .env
+    docker-compose up -d
+    ```
 
 #### 使用说明
 
