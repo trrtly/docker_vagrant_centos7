@@ -110,8 +110,12 @@ vagrant up
     cp .env-example .env
     docker-compose up -d
     ```
+8. 虚拟机创建后分配固定ip: `192.168.50.100`
+
 
 #### 使用说明
+
+##### 在docker_vagrant_centos7项目目录下执行命令
 
 1. 查看虚拟机运行状态
 ```
@@ -131,6 +135,11 @@ vagrant suspend
 4. 关闭
 ```
 vagrant halt
+```
+
+5. 启动（每次重启电脑后需运行此命令）
+```
+vagrant reload
 ```
 
 5. 重启

@@ -69,7 +69,17 @@ sudo curl -Ls -H "Host:ftp.epweike.net" http://10.0.100.92/incoming/epwkdev/dock
 sudo tar -xvf docker-compose.tar.gz -C /usr/local/bin/
 sudo chmod +x /usr/local/bin/docker-compose
 
+echo 'install php composer'
+sudo cp /data/composer /usr/local/bin/composer
+sudo chmod +x /usr/local/bin/composer
+
 echo 'docker version:'
 docker version
+
 echo 'docker-compose version:'
 /usr/local/bin/docker-compose version
+
+echo 'composer version:'
+/usr/local/bin/composer --version
+
+mkdir -p /data/webroot
