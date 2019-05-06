@@ -1,0 +1,13 @@
+#!/bin/bash
+
+docker run \
+    --tty \
+    --interactive \
+    --rm \
+    --net=host \
+    --user $(id -u):$(id -g) \
+    --volume /etc/passwd:/etc/passwd:ro \
+    --volume /etc/group:/etc/group:ro \
+    --volume /tmp:/tmp \
+    --volume $(pwd):/app \
+    10.0.100.114/library/composer:1.8 "$@"
