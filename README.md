@@ -30,18 +30,18 @@
     ```
     vagrant plugin install vagrant-vbguest
     ```
-
-3. 手动添加 epwk-centos7 box
-
-    ```
-    vagrant box add http://ftp.epweike.net/incoming/epwkdev/epwk-centos7.box --name epwk-centos7
-    ```
-
-4. 克隆本仓库到本地
+    
+3. 克隆本仓库到本地
 
     ```
     git clone http://git.epweike.net:3000/epwk/docker_vagrant_centos7.git
     cd docker_vagrant_centos7
+    ```
+
+4. 手动添加 epwk-centos7 box
+
+    ```
+    vagrant box add http://ftp.epweike.net/incoming/epwkdev/epwk-centos7.box --name epwk-centos7
     ```
 
 5. 执行建立环境
@@ -130,7 +130,7 @@
     config.vbguest.auto_update = false
     ```
 
-## `vagrant` 常用命令
+## vagrant 常用命令
 
 1. 查看虚拟机运行状态
 
@@ -182,7 +182,7 @@ rd /s /q .vagrant
 rm -rf .vagrant
 ```
 
-## 知识扩展:如何自己创建 `vagrant box`
+## 知识扩展:如何自己创建 vagrant box
 
 #### 1.从 virtualbox 创建虚拟机
 
