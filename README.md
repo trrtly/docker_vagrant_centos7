@@ -2,49 +2,42 @@
 
 ## 介绍
 
-这是一个基于centos7的vagrant开发环境，包含docker、docker-compose等程序。本配置在`Vagrant 2.2.*`，虚拟机为`VirtualBox 5.2.*`下测试通过，
-其他版本请自行测试。
+这是一个基于 Centos7 的 Vagrant 开发环境，包含 Docker、docker-compose 等程序。推荐使用 `Vagrant 2.2.4` + `VirtualBox 6.0.6`。
 
 ## 软件架构
 
-- vagrant
-- virtualbox
+- Vagrant
+- VirtualBox
 
 ## 安装教程
 
-1. 安装 [VirtualBox](https://www.oracle.com/technetwork/cn/server-storage/virtualbox/downloads/index.html) 虚拟机及 [Vagrant](https://www.vagrantup.com/downloads.html) 程序，内网下载地址：
+1. 安装 VirtualBox 虚拟机及 Vagrant 程序，内网下载地址：
     - 1.1 VirtualBox
-        * [Windows](http://ftp.epweike.net/incoming/epwkdev/virtualbox/VirtualBox-5.2.14-123301-Win.exe)
-        * [MacOs](http://ftp.epweike.net/incoming/epwkdev/virtualbox/VirtualBox-5.2.14-123301-OSX.dmg)
-        * [Ubuntu18.04](http://ftp.epweike.net/incoming/epwkdev/virtualbox/virtualbox-5.2_5.2.14-123301~Ubuntu~18.04_amd64.deb)
-        * [Debian9](http://ftp.epweike.net/incoming/epwkdev/virtualbox/virtualbox-5.2_5.2.14-123301~Debian~stretch_amd64.deb)
+        * [Windows](http://ftp.epweike.net/incoming/epwkdev/virtualbox/VirtualBox-6.0.6-130049-Win.exe)
+        * [MacOs](http://ftp.epweike.net/incoming/epwkdev/virtualbox/VirtualBox-6.0.6-130049-OSX.dmg)
+        * [Ubuntu18.04](http://ftp.epweike.net/incoming/epwkdev/virtualbox/virtualbox-6.0_6.0.6-130049_Ubuntu_bionic_amd64.deb)
+        * [Debian9](http://ftp.epweike.net/incoming/epwkdev/virtualbox/virtualbox-6.0_6.0.6-130049_Debian_stretch_amd64.deb)
     - 1.2 Vagrant
         * [Windows](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_x86_64.msi)
         * [MacOs](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_x86_64.dmg)
         * [Centos](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_x86_64.rpm)
         * [Linux](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_linux_amd64.zip)
         * [Debian](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_x86_64.deb)
-
-2. 安装 vagrant-vbguest
-
-    ```
-    vagrant plugin install vagrant-vbguest
-    ```
     
-3. 克隆本仓库到本地
+2. 克隆本仓库到本地
 
     ```
     git clone http://git.epweike.net:3000/epwk/docker_vagrant_centos7.git
     cd docker_vagrant_centos7
     ```
 
-4. 手动添加 epwk-centos7 box
+3. 手动添加 epwk-centos7 box
 
     ```
     vagrant box add http://ftp.epweike.net/incoming/epwkdev/epwk-centos7.box --name epwk-centos7
     ```
 
-5. 执行建立环境
+4. 执行建立环境
 
     ```
     vagrant up
@@ -52,7 +45,7 @@
     
     > 虚拟机创建后分配固定ip: `192.168.50.100`
 
-6. 文件同步说明
+5. 文件同步说明
 
    - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的/data目录
    - 可以在项目目录下创建webroot目录，将项目代码克隆至webroot目录下，对应虚拟机内的/data/webroot
@@ -89,17 +82,6 @@
     
 ## FAQ
 
-- Win7用户在启动过程可能会遇到如下错误提示:
-
-    ```
-    The version of powershell currently installed on this host is less than
-    the required minimum version. Please upgrade the installed version of
-    powershell to the minimum required version and run the command again.
-    ```
-    
-    可以通过升级powershell来解决,下载 [升级文件](http://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x64.msu)，升级成功后重新执行`vagrant up`
-    升级powershell的时候如果遇见 `相关服务未启用` 类似提示，请手动临时启用 `windows update`
-
 - Win10用户在启动过程可能会遇到如下错误提示:
 
     ```
@@ -115,20 +97,6 @@
       * 选择浏览我的计算机以查找驱动程序软件选项
       * 选择让我从计算机上的可用驱动程序列表中选取，下一步
       * 应该看到列表中只有`VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行`vagrant up`。
-
-- 文件挂载失败
-
-    多数情况下挂载不上是因为启动的时候出现了这个错误：
-    
-    ```
-    GuestAdditions seems to be installed (x.x.xx) correctly, but not running.
-    ```
-    
-    这个可能是因为virtualbox版本比较高（6.x.x）和 `vagrant-vbguest` 插件部分不兼容，这个可以在 `Vagrantfile` 禁用插件自动更新得以解决：
-    
-    ```
-    config.vbguest.auto_update = false
-    ```
 
 ## vagrant 常用命令
 
@@ -273,22 +241,15 @@ EOF'
 
 
 # 设置docker开机启动
-sudo systemctl daemon-reload
 sudo systemctl enable docker
-
-
-# 增强工具依赖包
-sudo yum install -y centos-release kernel-devel gcc binutils make perl bzip2
-
-
-# 临时设置代理安装指定版本的内核
-sudo sed -i '$a\proxy=socks5://10.0.90.103:1080' /etc/yum.conf
-sudo yum install -y kernel-devel-`uname -r` --enablerepo=C*-base --enablerepo=C*-updates
-sudo sed -i '/^proxy=/d' /etc/yum.conf
 
 
 # 默认进入到/data目录
 sed -i '$a\cd \/data' ~/.bashrc
+
+
+# 增强工具依赖包
+sudo yum install -y bzip2 gcc "kernel-devel-$(uname -r)"
 
 
 # 生成yum缓存
