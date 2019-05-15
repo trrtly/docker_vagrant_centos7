@@ -1,0 +1,43 @@
+version: '3.4'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  redis:
+    driver: ${VOLUMES_DRIVER}
+  mysql:
+    driver: ${VOLUMES_DRIVER}
+
+services:
+  nginx:
+    image: "${DOCKER_REGISTRY}/library/nginx:1.15.8"
+    volumes:
+      - ${APP_CODE_PATH}:/var/www
+      - ${APP_PATH}/nginx/logs:/var/log/nginx
+      - ${APP_PATH}/nginx/vhost:/etc/nginx/vhost
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - frontend
+      - backend
+
+  redis:
+    image: "${DOCKER_REGISTRY}/library/redis:5.0"
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+  php-fpm-7.2:
+    image: "${DOCKER_REGISTRY}/library/php:7.2-fpm"
+    networks:
+      - backend
+    volumes:
+      - ${APP_CODE_PATH}:/var/www

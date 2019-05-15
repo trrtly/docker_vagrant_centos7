@@ -54,33 +54,8 @@
 
 6. 文件同步说明
 
-   - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的/data目录
-   - 可以在项目目录下创建webroot目录，将项目代码克隆至webroot目录下，对应虚拟机内的/data/webroot
-   - 如果需要自定义目录映射，可以修改 `Vagrantfile` 文件，例如：
-
-    ```
-    # -*- mode: ruby -*-
-    # vi: set ft=ruby :
-    
-    Vagrant.configure("2") do |config|
-      config.vm.box = "epwk-centos7"
-      config.vm.box_check_update = false
-      config.vm.network "private_network", ip: "192.168.50.100"
-      config.vm.synced_folder ".", "/vagrant", disabled: true
-      config.vm.synced_folder ".", '/data', create: true, type: "virtualbox"
-      # 创建新的目录映射
-      config.vm.synced_folder "D:\\www", "/www", create: true, type: "virtualbox"
-      config.vm.hostname = "epwkdev"
-      config.vm.define "epwkdev"
-      config.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
-        vb.cpus = 1
-        vb.name = "epwkdev"
-      end
-    end
-    ```
-    
-    > 更改 `Vagrantfile` 文件后需要重启： `vagrant halt` &  `vagrant up` 
+   - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的 `/data` 目录，并且创建一个 `/data/webroot` 目录。
+   - 将项目代码克隆至 `webroot` 目录下，对应虚拟机内的 `/data/webroot`。
     
 7. 工具使用
 
@@ -118,6 +93,8 @@
     ```
     config.vbguest.auto_update = false
     ```
+    
+    > 更改 `Vagrantfile` 文件后需要重启 `vagrant halt` &  `vagrant up` 
 
 ## vagrant 常用命令
 
