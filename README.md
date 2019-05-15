@@ -94,7 +94,7 @@
     config.vbguest.auto_update = false
     ```
     
-    > 更改 `Vagrantfile` 文件后需要重启 `vagrant halt` &  `vagrant up` 
+    > 更改 `Vagrantfile` 文件后需要重启 `vagrant reload`
 
 ## vagrant 常用命令
 
