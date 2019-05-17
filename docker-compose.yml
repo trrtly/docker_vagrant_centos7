@@ -41,3 +41,10 @@ services:
       - backend
     volumes:
       - ${APP_CODE_PATH}:/var/www
+
+  php-fpm-5-3:
+    image: "${DOCKER_REGISTRY}/library/php:5.3-fpm"
+    networks:
+       - backend
+    volumes:
+       - ${APP_CODE_PATH}:/var/www

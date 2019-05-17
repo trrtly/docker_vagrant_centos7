@@ -1,0 +1,21 @@
+server {
+	listen      80;
+	server_name gonglue.epwk.me;
+	root        /var/www/article.epwk.me;
+	index       index.html index.htm index.php;
+	charset     utf-8;
+
+    error_log   /var/log/nginx/gonglue.epwk.me_error.log;
+    access_log  /var/log/nginx/gonglue.epwk.me_access.log;
+
+	if ( !-e $request_filename ) {
+		rewrite ^/(.*)$ /index.php?s=/$1 last;
+	}
+
+	location ~ \.php$ {
+        fastcgi_pass php-fpm-5-3:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
