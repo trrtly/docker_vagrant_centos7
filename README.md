@@ -2,13 +2,13 @@
 
 ## 介绍
 
-这是一个基于centos7的vagrant开发环境，包含docker、docker-compose等程序。本配置在`Vagrant 2.2.*`，虚拟机为`VirtualBox 5.2.*`下测试通过，
+这是一个基于 Centos7 的 Vagrant 开发环境，包含 Docker、docker-compose 等程序。本配置在 `Vagrant 2.2.4`，虚拟机为 `VirtualBox 5.2.14` 下测试通过，
 其他版本请自行测试。
 
 ## 软件架构
 
-- vagrant
-- virtualbox
+- Vagrant
+- VirtualBox
 
 ## 安装教程
 
@@ -54,51 +54,15 @@
 
 6. 文件同步说明
 
-   - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的/data目录
-   - 可以在项目目录下创建webroot目录，将项目代码克隆至webroot目录下，对应虚拟机内的/data/webroot
-   - 如果需要自定义目录映射，可以修改 `Vagrantfile` 文件，例如：
-
-    ```
-    # -*- mode: ruby -*-
-    # vi: set ft=ruby :
-    
-    Vagrant.configure("2") do |config|
-      config.vm.box = "epwk-centos7"
-      config.vm.box_check_update = false
-      config.vm.network "private_network", ip: "192.168.50.100"
-      config.vm.synced_folder ".", "/vagrant", disabled: true
-      config.vm.synced_folder ".", '/data', create: true, type: "virtualbox"
-      # 创建新的目录映射
-      config.vm.synced_folder "D:\\www\\git", "/www", create: true, type: "virtualbox"
-      config.vm.hostname = "epwkdev"
-      config.vm.define "epwkdev"
-      config.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
-        vb.cpus = 1
-        vb.name = "epwkdev"
-      end
-    end
-    ```
-    
-    > 更改 `Vagrantfile` 文件后需要 `vagrant halt` &  `vagrant up` 
+   - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的 `/data` 目录，并且创建一个 `/data/webroot` 目录。
+   - `必须` 将项目代码克隆至 `webroot` 目录下，对应虚拟机内的 `/data/webroot`。
     
 7. 工具使用
 
     - 初次使用的时候 `tools` 目录下的工具会全部拷贝到 `/usr/local/bin` 目录下并添加可执行权限
-    - 欢迎 `PR` 提供各种常用工具
+    - 欢迎 PR 提供各种常用工具
     
 ## FAQ
-
-- Win7用户在启动过程可能会遇到如下错误提示:
-
-    ```
-    The version of powershell currently installed on this host is less than
-    the required minimum version. Please upgrade the installed version of
-    powershell to the minimum required version and run the command again.
-    ```
-    
-    可以通过升级powershell来解决,下载 [升级文件](http://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x64.msu)，升级成功后重新执行`vagrant up`
-    升级powershell的时候如果遇见 `相关服务未启用` 类似提示，请手动临时启用 `windows update`
 
 - Win10用户在启动过程可能会遇到如下错误提示:
 
@@ -114,7 +78,7 @@
       * 点击配置按钮->驱动程序选项卡->更新驱动程序按钮。
       * 选择浏览我的计算机以查找驱动程序软件选项
       * 选择让我从计算机上的可用驱动程序列表中选取，下一步
-      * 应该看到列表中只有`VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行`vagrant up`。
+      * 应该看到列表中只有 `VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行 `vagrant up`。
 
 - 文件挂载失败
 
@@ -129,6 +93,8 @@
     ```
     config.vbguest.auto_update = false
     ```
+    
+    > 更改 `Vagrantfile` 文件后需要重启 `vagrant reload`
 
 ## vagrant 常用命令
 
@@ -273,18 +239,11 @@ EOF'
 
 
 # 设置docker开机启动
-sudo systemctl daemon-reload
 sudo systemctl enable docker
 
 
 # 增强工具依赖包
-sudo yum install -y centos-release kernel-devel gcc binutils make perl bzip2
-
-
-# 临时设置代理安装指定版本的内核
-sudo sed -i '$a\proxy=socks5://10.0.90.103:1080' /etc/yum.conf
-sudo yum install -y kernel-devel-`uname -r` --enablerepo=C*-base --enablerepo=C*-updates
-sudo sed -i '/^proxy=/d' /etc/yum.conf
+sudo yum install -y bzip2 gcc binutils make perl "kernel-devel-$(uname -r)" kernel-devel
 
 
 # 默认进入到/data目录
