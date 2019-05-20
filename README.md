@@ -64,6 +64,18 @@
     
 ## FAQ
 
+- Win7用户在启动过程可能会遇到如下错误提示:
+
+    ```
+    The version of powershell currently installed on this host is less than
+    the required minimum version. Please upgrade the installed version of
+    powershell to the minimum required version and run the command again.
+    ```
+
+    - 在下一步之前，请确保计算机用杀毒软件装好安全补丁，防止被利用 `永恒之蓝` 漏洞进行 `powershell` 挖矿，相关参考 [PowershellMiner无文件挖矿](https://xz.aliyun.com/t/2181)
+    - 可以通过升级 `powershell` 来解决，下载安装 [升级文件 x64](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x64.msu) 或者 [升级文件 x86](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x86.msu)，升级成功后重新执行 `vagrant up`
+    - 升级 `powershell` 的时候如果遇见 `相关服务未启用` 类似提示，请手动临时启用 `windows update` 服务
+
 - Win10用户在启动过程可能会遇到如下错误提示:
 
     ```
