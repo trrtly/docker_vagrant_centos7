@@ -1,0 +1,10 @@
+server {
+    listen      80;
+    server_name img20.weikeimg.me img21.weikeimg.me img22.weikeimg.me img23.weikeimg.me img24.weikeimg.me;
+    charset     utf-8;
+    root        /var/www/epweike.me;
+    index       index.html index.htm index.php;
+
+    access_log  /var/log/nginx/img.weikeimg.me_access.log;
+    error_log   /var/log/nginx/img.weikeimg.me_error.log;
+}

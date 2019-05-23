@@ -1,0 +1,36 @@
+---
+# 可选，操作系统类型，默认是 `windows`，可以配置成 `linux`
+# system: windows
+
+# 可选，自定义文件夹映射，如果没有特别需要的话，不必设置此项
+# folders:
+#   - map: ~/code
+#     to: /home/vagrant/code
+
+# 可选，windows下如果不想每次启动 vagrant 都输入账号密码，可以设置此项
+# smb_username: Su
+# smb_password: 123456
+
+# 可选，CPU 核心数量，默认`1`
+# cpus: 1
+
+# 可选，内存大小，默认`2048`
+# memory: 2048
+
+# 可选，GIT 连接协议，默认`http`
+# git_protocol: http
+
+#可选，GIT 项目地址，默认`git.epweike.net:3000`
+# git_host: git.epweike.net:3000
+
+# 必须，GIT 用户名
+git_user: 
+
+# 必须，GIT 密码
+git_pass: 
+
+# 必须，GIT 用户邮箱
+git_email: 
+
+# 可选，项目检出目录，默认当前目录下的`webroot`
+# webroot: webroot
