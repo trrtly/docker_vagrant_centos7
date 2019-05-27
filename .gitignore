@@ -2,6 +2,6 @@
 .idea/
 webroot/
 data/nginx/logs/
-nginx/vhost/*.conf
-!nginx/vhost/default.conf
+data/nginx/vhost/*.conf
+!data/nginx/vhost/default.conf
 config.yaml
