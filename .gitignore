@@ -1,6 +1,7 @@
 .vagrant/
 .idea/
-webroot/
-nginx/logs/
-nginx/vhost/*.conf
-!nginx/vhost/default.conf
+data/webroot/
+data/nginx/logs/
+data/nginx/vhost/*.conf
+!data/nginx/vhost/default.conf
+config.yaml

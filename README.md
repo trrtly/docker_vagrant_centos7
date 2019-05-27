@@ -24,27 +24,30 @@
         * [Centos](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_x86_64.rpm)
         * [Linux](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_linux_amd64.zip)
         * [Debian](http://ftp.epweike.net/incoming/epwkdev/vagrant/vagrant_2.2.4_x86_64.deb)
-
-2. 安装 vagrant-vbguest
-
-    ```
-    vagrant plugin install vagrant-vbguest
-    ```
-    
-3. 克隆本仓库到本地
+ 
+2. 克隆本仓库到本地
 
     ```
     git clone http://git.epweike.net:3000/epwk/docker_vagrant_centos7.git
     cd docker_vagrant_centos7
     ```
 
-4. 手动添加 epwk-centos7 box
+3. 初始化运行配置
 
     ```
-    vagrant box add http://ftp.epweike.net/incoming/epwkdev/epwk-centos7.box --name epwk-centos7
+    # windows
+    以管理员权限执行 init.bat
+
+    # linux
+    chmod +x ./init.sh
+    ./init.sh
     ```
 
-5. 执行建立环境
+4. 设置配置文件
+
+    请手动配置 `config.yaml`
+
+3. 执行建立环境
 
     ```
     vagrant up
@@ -52,17 +55,29 @@
     
     > 虚拟机创建后分配固定ip: `192.168.50.100`
 
-6. 文件同步说明
+4. 文件同步说明
 
-   - 虚拟机创建以后会自动同步当前项目所在目录至虚拟机内的 `/data` 目录，并且创建一个 `/data/webroot` 目录。
-   - `必须` 将项目代码克隆至 `webroot` 目录下，对应虚拟机内的 `/data/webroot`。
+   - 虚拟机创建以后会自动同步当前项目的 `data` 目录至虚拟机内的 `/data` 目录，并且创建一个 `/data/webroot` 目录映射到你本机 `config.yaml` 配置的 `webroot` 目录。
+   - `必须` 将项目代码克隆至虚拟机内的 `/data/webroot` 目录下。
     
-7. 工具使用
+5. 工具使用
 
     - 初次使用的时候 `tools` 目录下的工具会全部拷贝到 `/usr/local/bin` 目录下并添加可执行权限
-    - 欢迎 PR 提供各种常用工具
+    - 欢迎 `Pull Request` 提供各种常用工具
     
 ## FAQ
+
+- Win7用户在启动过程可能会遇到如下错误提示:
+
+    ```
+    The version of powershell currently installed on this host is less than
+    the required minimum version. Please upgrade the installed version of
+    powershell to the minimum required version and run the command again.
+    ```
+
+    - 在下一步之前，请确保计算机用杀毒软件装好安全补丁，防止被利用 `永恒之蓝` 漏洞进行 `powershell` 挖矿，相关参考 [PowershellMiner无文件挖矿](https://xz.aliyun.com/t/2181)
+    - 可以通过升级 `powershell` 来解决，下载安装 [升级文件 x64](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x64.msu) 或者 [升级文件 x86](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x86.msu)，升级成功后重新执行 `vagrant up`
+    - 升级 `powershell` 的时候如果遇见 `相关服务未启用` 类似提示，请手动临时启用 `windows update` 服务
 
 - Win10用户在启动过程可能会遇到如下错误提示:
 
@@ -79,22 +94,6 @@
       * 选择浏览我的计算机以查找驱动程序软件选项
       * 选择让我从计算机上的可用驱动程序列表中选取，下一步
       * 应该看到列表中只有 `VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行 `vagrant up`。
-
-- 文件挂载失败
-
-    多数情况下挂载不上是因为启动的时候出现了这个错误：
-    
-    ```
-    GuestAdditions seems to be installed (x.x.xx) correctly, but not running.
-    ```
-    
-    这个可能是因为virtualbox版本比较高（6.x.x）和 `vagrant-vbguest` 插件部分不兼容，这个可以在 `Vagrantfile` 禁用插件自动更新得以解决：
-    
-    ```
-    config.vbguest.auto_update = false
-    ```
-    
-    > 更改 `Vagrantfile` 文件后需要重启 `vagrant reload`
 
 ## vagrant 常用命令
 
@@ -139,7 +138,7 @@ vagrant reload
 ```
 vagrant destroy
 
-# 销毁后还需要清理项目下的.vagrant目录
+# 销毁后还需要清理项目下的`.vagrant`目录
 
 # windows
 rd /s /q .vagrant
@@ -160,13 +159,13 @@ rm -rf .vagrant
 #### 2.进入虚拟机安装依赖
 
 ```
+# 解决sudo需要密码问题
+sudo sed -i '$a\vagrant ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
+
+
 # 解决ssh链接速度慢的问题
 sudo sed -i 's/^#UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
 sudo systemctl restart sshd
-
-
-# 解决sudo需要密码问题
-sudo sed -i '$a\vagrant ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
 
 
 # 配置vagrant公钥
@@ -190,70 +189,43 @@ sudo swapoff -a
 sudo sed -i '/swap/s/^/#/' /etc/fstab
 
 
-# 设置DNS
-sudo bash -c "cat > /etc/resolv.conf <<EOF
-nameserver 8.8.8.8
-nameserver 10.0.0.11
-nameserver 10.0.0.12
-EOF"
-
-
 # 设置阿里云源
 sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 sudo curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
-
-
-# 安装epel源并替换成阿里源
 sudo yum install -y epel-release
 sudo mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.backup
 sudo curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
-sudo mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup
-sudo curl -o /etc/yum.repos.d/epel-testing.repo http://mirrors.aliyun.com/repo/epel-testing.repo
-
-
-# 安装docker源和docker依赖
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
 
 # 安装docker
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 sudo yum install -y docker-ce
-
-
-# 把vagrant加入docker用户组
+sudo systemctl enable docker
 sudo usermod -aG docker vagrant
 
 
-# 设置docker仓库
-sudo mkdir -p /etc/docker
-sudo bash -c 'cat > /etc/docker/daemon.json <<EOF
-{
-  "registry-mirrors": [
-    "https://registry.docker-cn.com"
-  ],
-  "insecure-registries": [
-    "10.0.100.114"
-  ]
-}
-EOF'
+# 安装GIT
+sudo yum install -y wget openssl-devel curl-devel expat-devel gcc
+wget https://github.com/git/git/archive/v2.21.0.tar.gz
+tar -zxf v2.21.0.tar.gz
+cd git-2.21.0/
+make prefix=/usr/local all
+sudo make prefix=/usr/local install
+cd ..
+rm -rf v2.21.0.tar.gz git-2.21.0/
 
 
-# 设置docker开机启动
-sudo systemctl enable docker
+# 安装SMB依赖
+sudo yum install -y cifs-utils
 
 
-# 增强工具依赖包
-sudo yum install -y bzip2 gcc binutils make perl "kernel-devel-$(uname -r)" kernel-devel
-
-
-# 默认进入到/data目录
+# 默认进入 /data 目录
 sed -i '$a\cd \/data' ~/.bashrc
 
 
 # 生成yum缓存
 sudo yum clean all
-sudo yum makecache
-
 ```
 
 #### 3.生成 box 文件
@@ -261,10 +233,10 @@ sudo yum makecache
 进入到 virtualbox 的虚拟机目录，如：`D:\vbox-system\epwk-centos7`，执行命令：
 
 ```
-vagrant package --base epwk-centos7 --output epwk-centos7.box
+vagrant package --base centos7 --output epwk-centos7.box
 ```
 
-其中 `epwk-centos7` 是你创建的虚拟机的名称，`epwk-centos7.box` 是你导出的 box 文件名称
+其中 `centos7` 是你创建的虚拟机的名称，`epwk-centos7.box` 是你导出的 box 文件名称
 
 
 ## 参与贡献
