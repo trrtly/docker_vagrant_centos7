@@ -9,6 +9,9 @@ nameserver 10.0.0.11
 nameserver 10.0.0.12
 EOF"
 
+# 重启网卡
+systemctl restart network
+
 # 设置docker仓库
 mkdir -p /etc/docker
 bash -c 'cat > /etc/docker/daemon.json <<EOF
