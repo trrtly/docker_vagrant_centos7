@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
     abort "Unknown operating system: #{os}"
   end
 
-  webroot = File.expand_path(settings["webroot"] ||= "webroot")
+  webroot = File.expand_path(settings["webroot"] ||= "data/webroot")
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "data", "/data", opts
   config.vm.synced_folder "#{webroot}", "/data/webroot", opts
