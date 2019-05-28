@@ -1,2 +1,5 @@
+* text eol=lf
 * text=auto
 *.bat text eol=crlf
+*.sh text eol=lf
+bin/* binary
