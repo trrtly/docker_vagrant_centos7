@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
   # 文件挂载
   os = settings["system"] ||= "windows"
   if os == "windows"
-    opts = {create: true, type: "smb", mount_options: ["vers=3.02", "mfsymlinks", "dir_mode=0777", "file_mode=0777"]}
+    opts = {create: true, type: "smb", mount_options: ["mfsymlinks", "dir_mode=0777", "file_mode=0777"]}
     if settings["smb_username"]
       opts[:smb_username] = "#{settings["smb_username"]}"
     end
