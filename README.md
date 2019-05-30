@@ -87,7 +87,7 @@ vagrant status
 2. 登录虚拟机
 
 ```
-vagrant ssh epwkdev
+vagrant ssh
 ```
 
 3. 暂停虚拟机
