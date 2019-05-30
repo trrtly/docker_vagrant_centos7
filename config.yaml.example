@@ -17,20 +17,12 @@
 # 可选，内存大小，默认 `2048`
 # memory: 2048
 
-# 可选，GIT 连接协议，默认 `http`
-# git_protocol: http
-
-# 可选，GIT 项目地址，默认 `git.epweike.net:3000`
-# git_host: git.epweike.net:3000
-
 # 必须，GIT 用户名
-git_user: 
-
-# 必须，GIT 密码
-git_pass: 
+# git_user:
 
 # 必须，GIT 用户邮箱
-git_email: 
+# git_email:
 
 # 可选，项目检出目录，默认当前目录下的 `data/webroot`
 # webroot: data/webroot
+

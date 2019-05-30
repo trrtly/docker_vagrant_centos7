@@ -1,4 +1,11 @@
-# docker_vagrant_centos7
+# 一品威客本地开发环境
+
+- [介绍](#介绍)
+- [软件架构](#软件架构)
+- [安装教程](#安装教程)
+- [vagrant 常用命令](#vagrant-常用命令)
+- [FAQ](#FAQ)
+- [知识扩展:如何自己创建 vagrant box](#知识扩展:如何自己创建-vagrant-box)
 
 ## 介绍
 
@@ -32,7 +39,19 @@
     cd docker_vagrant_centos7
     ```
 
-3. 初始化运行配置
+3. 初始化运行配置（启动）
+
+    > 注意：linux 操作系统需要在本机安装 nfs 服务，安装命令如下:
+    
+    ```
+    # ubantu/deepin
+    sudo apt install nfs-kernel-server
+    
+    # centos
+    sudo yum install nfs-utils
+    ```
+    
+    然后执行初始化脚本：
 
     ```
     # windows
@@ -42,18 +61,10 @@
     chmod +x ./init.sh
     ./init.sh
     ```
-
-4. 设置配置文件
-
-    请手动配置 `config.yaml`
-
-3. 执行建立环境
-
-    ```
-    vagrant up
-    ```
     
-    > 虚拟机创建后分配固定ip: `192.168.50.100`
+    初始化脚本执行后会在当前项目下生成一个  `config.yaml`，如果需要更改一些配置，则编辑这个文件后重启 vagrant
+    
+    初始化后回自动启动 vagrant，以后再次启动只需要再次执行初始化脚本就行，启动后的虚拟机 IP 固定为 `192.168.50.100`
 
 4. 文件同步说明
 
@@ -63,38 +74,8 @@
 5. 工具使用
 
     - 初次使用的时候 `tools` 目录下的工具会全部拷贝到 `/usr/local/bin` 目录下并添加可执行权限
-    - 欢迎 `Pull Request` 提供各种常用工具
+    - 欢迎 PR 提供各种常用工具
     
-## FAQ
-
-- Win7用户在启动过程可能会遇到如下错误提示:
-
-    ```
-    The version of powershell currently installed on this host is less than
-    the required minimum version. Please upgrade the installed version of
-    powershell to the minimum required version and run the command again.
-    ```
-
-    - 在下一步之前，请确保计算机用杀毒软件装好安全补丁，防止被利用 `永恒之蓝` 漏洞进行 `powershell` 挖矿，相关参考 [PowershellMiner无文件挖矿](https://xz.aliyun.com/t/2181)
-    - 可以通过升级 `powershell` 来解决，下载安装 [升级文件 x64](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x64.msu) 或者 [升级文件 x86](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x86.msu)，升级成功后重新执行 `vagrant up`
-    - 升级 `powershell` 的时候如果遇见 `相关服务未启用` 类似提示，请手动临时启用 `windows update` 服务
-
-- Win10用户在启动过程可能会遇到如下错误提示:
-
-    ```
-    Stderr: VBoxManage.exe: error: Failed to open/create the internal network 'HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter' (VERR_SUPDRV_COMPONENT_NOT_FOUND).
-    VBoxManage.exe: error: Failed to attach the network LUN (VERR_SUPDRV_COMPONENT_NOT_FOUND)
-    VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component ConsoleWrap, interface IConsole
-    ```
-    
-    - 可以通过更新virtualbox网络驱动解决：
-      * 打开网络共享中心，并转到侧栏中的更改适配器设置
-      * 右击VirtualBox Host Only Network网络驱动器
-      * 点击配置按钮->驱动程序选项卡->更新驱动程序按钮。
-      * 选择浏览我的计算机以查找驱动程序软件选项
-      * 选择让我从计算机上的可用驱动程序列表中选取，下一步
-      * 应该看到列表中只有 `VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行 `vagrant up`。
-
 ## vagrant 常用命令
 
 1. 查看虚拟机运行状态
@@ -146,6 +127,37 @@ rd /s /q .vagrant
 # linux
 rm -rf .vagrant
 ```
+
+## FAQ
+
+- Win7用户在启动过程可能会遇到如下错误提示:
+
+    ```
+    The version of powershell currently installed on this host is less than
+    the required minimum version. Please upgrade the installed version of
+    powershell to the minimum required version and run the command again.
+    ```
+
+    - 在下一步之前，请确保计算机用杀毒软件装好安全补丁，防止被利用 `永恒之蓝` 漏洞进行 `powershell` 挖矿，相关参考 [PowershellMiner无文件挖矿](https://xz.aliyun.com/t/2181)
+    - 可以通过升级 `powershell` 来解决，下载安装 [升级文件 x64](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x64.msu) 或者 [升级文件 x86](https://download.microsoft.com/download/E/7/6/E76850B8-DA6E-4FF5-8CCE-A24FC513FD16/Windows6.1-KB2506143-x86.msu)，升级成功后重新执行 `vagrant up`
+    - 升级 `powershell` 的时候如果遇见 `相关服务未启用` 类似提示，请手动临时启用 `windows update` 服务
+
+- Win10用户在启动过程可能会遇到如下错误提示:
+
+    ```
+    Stderr: VBoxManage.exe: error: Failed to open/create the internal network 'HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter' (VERR_SUPDRV_COMPONENT_NOT_FOUND).
+    VBoxManage.exe: error: Failed to attach the network LUN (VERR_SUPDRV_COMPONENT_NOT_FOUND)
+    VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component ConsoleWrap, interface IConsole
+    ```
+    
+    - 可以通过更新virtualbox网络驱动解决：
+      * 打开网络共享中心，并转到侧栏中的更改适配器设置
+      * 右击VirtualBox Host Only Network网络驱动器
+      * 点击配置按钮->驱动程序选项卡->更新驱动程序按钮。
+      * 选择浏览我的计算机以查找驱动程序软件选项
+      * 选择让我从计算机上的可用驱动程序列表中选取，下一步
+      * 应该看到列表中只有 `VirtualBox Host-Only Ethernet Adapter`。选择它并单击下一步。更新驱动程序后，请再次尝试执行 `vagrant up`。
+
 
 ## 知识扩展:如何自己创建 vagrant box
 

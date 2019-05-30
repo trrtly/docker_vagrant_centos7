@@ -62,22 +62,14 @@ Vagrant.configure("2") do |config|
   end
   
   # 配置 GIT
-  if !settings["git_user"] || !settings["git_pass"] || !settings["git_email"]
-    abort "Git need {git_user} and {git_pass} and {git_email} configure"
+  if !settings["git_user"] || !settings["git_email"]
+    abort "Git need {git_user} and {git_email} configure"
   end
-
-  # 记住 GIT 账号密码
-  gitProtocol = settings["git_protocol"] ||= "http"
-  gitHost = ERB::Util.url_encode(settings["git_host"] ||= "git.epweike.net:3000")
-  gituser = ERB::Util.url_encode(settings["git_user"])
-  gitPass = ERB::Util.url_encode(settings["git_pass"])
-  gitCert = "#{gitProtocol}://#{gituser}:#{gitPass}@#{gitHost}"
 
   gitInit = <<-SCRIPT
 git config --global user.name "#{settings["git_user"]}"
 git config --global user.email "#{settings["git_email"]}"
 git config --global credential.helper store
-echo "#{gitCert}" > ~/.git-credentials
 SCRIPT
 
   config.vm.provision 'shell' do |s|
