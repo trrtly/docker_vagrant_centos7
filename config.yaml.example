@@ -8,8 +8,8 @@
 #     to: /home/vagrant/code
 
 # 可选，windows下如果不想每次启动 vagrant 都输入账号密码，可以设置此项
-# smb_username: 
-# smb_password: 
+# smb_username:
+# smb_password:
 
 # 可选，CPU 核心数量，默认 `1`
 # cpus: 1
