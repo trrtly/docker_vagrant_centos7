@@ -15,6 +15,10 @@ volumes:
 services:
   nginx:
     image: "${DOCKER_REGISTRY}/library/nginx:1.15.8"
+    depends_on:
+      - php-fpm-7.2
+      - php-fpm-5.3
+      - redis
     volumes:
       - ${APP_CODE_PATH}:/var/www
       - ${APP_PATH}/nginx/logs:/var/log/nginx
@@ -37,13 +41,17 @@ services:
 
   php-fpm-7.2:
     image: "${DOCKER_REGISTRY}/library/php:7.2-fpm"
+    depends_on:
+      - redis
     networks:
       - backend
     volumes:
       - ${APP_CODE_PATH}:/var/www
 
-  php-fpm-5-3:
+  php-fpm-5.3:
     image: "${DOCKER_REGISTRY}/library/php:5.3-fpm"
+    depends_on:
+      - redis
     networks:
        - backend
     volumes:
