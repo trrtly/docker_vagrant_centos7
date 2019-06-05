@@ -9,7 +9,7 @@ server {
     error_log   /var/log/nginx/static.weikeimg.me_error.log;
 
     location ~ \.php$ {
-        fastcgi_pass php-fpm-5-3:9000;
+        fastcgi_pass php-fpm-5.3:9000;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
@@ -34,7 +34,7 @@ server {
     ssl_prefer_server_ciphers on;
 
     location ~ \.php$ {
-        fastcgi_pass php-fpm-5-3:9000;
+        fastcgi_pass php-fpm-5.3:9000;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
