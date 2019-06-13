@@ -7,7 +7,7 @@ git clone http://git.epweike.net:3000/epwk/${proj}.git ${dest} \
 && git checkout -b develop origin/dev \
 && cp .env.example .env \
 && rm -rf bin/composer bin/phpunit \
-&& composer install --ignore-platform-reqs --no-scripts \
+&& composer install --ignore-platform-reqs \
 && cp /data/nginx/vhost/${proj}.conf.example /data/nginx/vhost/${proj}.conf \
 && cd /data \
 && docker-compose restart \
