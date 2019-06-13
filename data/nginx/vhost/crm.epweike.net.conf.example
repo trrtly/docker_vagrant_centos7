@@ -27,4 +27,9 @@ server {
     location ~ /\.(?!well-known).* {
         deny all;
     }
+
+    # v1接口转发
+    location ^~ /v1/ {
+        proxy_pass http://dc.epweike.me;
+    }
 }
